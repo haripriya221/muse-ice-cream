@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
   # Ice Cream Order Management System
 
@@ -9,3 +10,7 @@
 
   Run `npm run dev` to start the development server.
   
+=======
+# muse-ice-cream
+Ice Cream Order Management System for small business
+>>>>>>> b999ca33a95b136352244f94fb642a3c058d6012
