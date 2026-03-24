@@ -130,8 +130,7 @@ export function OrderConfirmation() {
             </Card>
 
             <Card className="p-4 mb-6 bg-green-50 border-2 border-green-300">
-              <p className="text-sm font-semibold text-green-800 mb-2">✓ Payment Confirmed</p>
-              <p className="text-sm text-green-700">Show this screen along with your token number <b className="text-lg text-green-900">{order.orderNumber}</b> at the counter to collect your order.</p>
+              <p className="text-sm text-green-700">Please show your payment confirmation at the counter when your token number is called, to collect your order.</p>
             </Card>
 
             <Button onClick={handleNewOrder} className="w-full bg-[#cc162b] text-white py-4">
