@@ -5,9 +5,9 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 
 const SIZES = [
-  { name: 'Small' as Size, price: 50, maxFlavors: 5 },
-  { name: 'Medium' as Size, price: 70, maxFlavors: 7 },
-  { name: 'Large' as Size, price: 100, maxFlavors: 10 },
+  { name: 'Small' as Size, price: 50, maxFlavors: 3 },
+  { name: 'Medium' as Size, price: 70, maxFlavors: 5 },
+  { name: 'Large' as Size, price: 100, maxFlavors: 7 },
 ];
 
 export function SizeSelection() {

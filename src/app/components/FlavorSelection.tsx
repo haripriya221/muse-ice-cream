@@ -15,9 +15,9 @@ export function FlavorSelection() {
   // ✅ Size → Max flavors config
   const getSizeConfig = () => {
     const configs = {
-      Small: 5,
-      Medium: 7,
-      Large: 10,
+      Small: 3,
+      Medium: 5,
+      Large: 7,
     };
     return order.size ? configs[order.size] : 0;
   };
