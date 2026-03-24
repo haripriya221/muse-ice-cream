@@ -18,11 +18,10 @@ export function OrderConfirmation() {
   }, [order.size, order.flavors, navigate]);
 
   const handleProceedToPayment = () => {
-    const amount = Number(order.price).toFixed(2);
-    const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_NAME)}&am=${amount}&cu=INR`;
+    const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_NAME)}&cu=INR`;
 
     window.location.href = upiUrl;
-    toast.success('Opening UPI apps...');
+    toast.success('Opening UPI apps. Enter the shown order amount before paying.');
   };
 
   return (
