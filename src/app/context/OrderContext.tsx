@@ -23,9 +23,9 @@ interface OrderContextType {
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
 const SIZE_CONFIG = {
-  Small: { maxFlavors: 5, price: 50 },
-  Medium: { maxFlavors: 7, price: 70 },
-  Large: { maxFlavors: 10, price: 100 },
+  Small: { maxFlavors: 3, price: 50 },
+  Medium: { maxFlavors: 5, price: 70 },
+  Large: { maxFlavors: 7, price: 100 },
 };
 
 export function OrderProvider({ children }: { children: ReactNode }) {
