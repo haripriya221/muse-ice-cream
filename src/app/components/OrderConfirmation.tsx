@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { useOrder } from '../context/OrderContext';
-import { ArrowLeft, Check, QrCode, MessageCircle, Sparkles } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { useEffect, useState } from 'react';
@@ -10,6 +10,8 @@ export function OrderConfirmation() {
   const navigate = useNavigate();
   const { order, generateOrderNumber, resetOrder } = useOrder();
   const [stage, setStage] = useState<'review' | 'payment' | 'complete'>('review');
+  const UPI_ID = 'priya212002@okaxis';
+  const UPI_NAME = 'Haripriya K';
 
   useEffect(() => {
     if (!order.size || order.flavors.length === 0) {
@@ -17,44 +19,13 @@ export function OrderConfirmation() {
     }
   }, [order.size, order.flavors, navigate]);
 
-  // ✅ REAL WhatsApp integration
-  const handleSendToWhatsApp = () => {
-    generateOrderNumber();
+  const handleProceedToPayment = () => {
+    const orderRef = order.orderNumber ?? Date.now();
+    const transactionNote = `Ice Cream Order ${orderRef}`;
+    const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_NAME)}&am=${order.price}&cu=INR&tn=${encodeURIComponent(transactionNote)}&tr=${orderRef}`;
 
-    const message = `
-🍦 Ice Cream Order
-
-Size: ${order.size}
-Flavours: ${order.flavors.join(', ')}
-Price: ₹${order.price}
-`;
-
-    const phoneNumber = "91XXXXXXXXXX"; // 👉 PUT YOUR NUMBER HERE
-
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
-
-    toast.success('Redirecting to WhatsApp...');
-    setStage('payment');
-  };
-
-  // ✅ REAL payment confirmation (free method)
-  const handlePaymentComplete = () => {
-    const newOrder = {
-      orderNumber: order.orderNumber,
-      size: order.size,
-      flavors: order.flavors,
-      price: order.price,
-      timestamp: new Date().toISOString(),
-      status: 'paid',
-    };
-
-    const orders = JSON.parse(localStorage.getItem('iceOrders') || '[]');
-    orders.push(newOrder);
-    localStorage.setItem('iceOrders', JSON.stringify(orders));
-
-    toast.success('Payment confirmed! Order placed.');
-    setStage('complete');
+    window.location.href = upiUrl;
+    toast.success('Opening UPI apps...');
   };
 
   const handleNewOrder = () => {
@@ -81,11 +52,13 @@ Price: ₹${order.price}
             </Card>
 
             <Button
-              onClick={handleSendToWhatsApp}
-              className="w-full bg-green-600 text-white py-4"
+              onClick={() => {
+                generateOrderNumber();
+                setStage('payment');
+              }}
+              className="w-full bg-[#cc162b] text-white py-4"
             >
-              <MessageCircle className="mr-2 w-5 h-5" />
-              Send Order to WhatsApp
+              Proceed to Payment
             </Button>
           </>
         )}
@@ -106,10 +79,10 @@ Price: ₹${order.price}
             </Card>
 
             <Button
-              onClick={handlePaymentComplete}
+              onClick={handleProceedToPayment}
               className="w-full bg-[#cc162b] text-white py-4"
             >
-              I Have Paid
+              Proceed to Payment
             </Button>
           </div>
         )}

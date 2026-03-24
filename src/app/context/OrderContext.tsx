@@ -6,7 +6,7 @@ export interface Order {
   size: Size | null;
   flavors: string[];
   price: number;
-  orderNumber: string | null;
+  orderNumber: number | null; // ✅ changed to number
 }
 
 interface OrderContextType {
@@ -48,6 +48,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
   const addFlavor = (flavor: string) => {
     if (!order.size) return;
     const maxFlavors = SIZE_CONFIG[order.size].maxFlavors;
+
     if (order.flavors.length < maxFlavors) {
       setOrder(prev => ({
         ...prev,
@@ -76,12 +77,16 @@ export function OrderProvider({ children }: { children: ReactNode }) {
     return order.flavors.length < maxFlavors;
   };
 
+  // 🔥 NEW TOKEN LOGIC (1, 2, 3, ...)
   const generateOrderNumber = () => {
-    const orderNum = `ICE${Date.now().toString().slice(-6)}`;
+    const current = parseInt(localStorage.getItem('tokenCounter') || '1');
+
     setOrder(prev => ({
       ...prev,
-      orderNumber: orderNum,
+      orderNumber: current,
     }));
+
+    localStorage.setItem('tokenCounter', (current + 1).toString());
   };
 
   const resetOrder = () => {
