@@ -68,7 +68,7 @@ export function AdminDashboard() {
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-5xl mb-2 text-[#cc162b] tracking-tight" style={{ fontWeight: 600 }}>Muse</h1>
+              <h1 className="font-muse text-5xl mb-2 text-[#cc162b] tracking-tight" style={{ fontWeight: 600 }}>Muse</h1>
               <p className="text-lg text-gray-500">Admin Dashboard</p>
             </div>
             {orders.length > 0 && (

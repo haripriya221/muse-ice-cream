@@ -35,7 +35,7 @@ export function SizeSelection() {
               </div>
             </div>
           </div>
-          <h1 className="text-6xl mb-3 text-[#cc162b] tracking-tight" style={{ fontWeight: 600 }}>Muse</h1>
+          <h1 className="font-muse text-6xl mb-3 text-[#cc162b] tracking-tight" style={{ fontWeight: 600 }}>Muse</h1>
           <div className="flex items-center justify-center gap-2 text-gray-500">
             <Sparkles className="w-4 h-4" />
             <p className="text-lg">Choose Your Perfect Size</p>

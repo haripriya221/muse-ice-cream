@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'Symphony';
+  src: local('Symphony'), local('Symphony Regular');
+  font-display: swap;
+}
+
+.font-muse {
+  font-family: 'Symphony', 'Times New Roman', serif;
+}
