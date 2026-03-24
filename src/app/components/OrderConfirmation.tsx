@@ -10,6 +10,9 @@ export function OrderConfirmation() {
   const navigate = useNavigate();
   const { order, generateOrderNumber, resetOrder } = useOrder();
   const [stage, setStage] = useState<'review' | 'payment' | 'complete'>('review');
+  const [isLoading, setIsLoading] = useState(false);
+  const UPI_ID = 'priya212002@okaxis';
+  const UPI_NAME = 'Haripriya K';
 
   useEffect(() => {
     if (!order.size || order.flavors.length === 0) {
@@ -17,7 +20,17 @@ export function OrderConfirmation() {
     }
   }, [order.size, order.flavors, navigate]);
 
+  const handleInitiatePayment = () => {
+    const amount = Number(order.price).toFixed(2);
+    const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_NAME)}&am=${amount}&cu=INR`;
+    window.location.href = upiUrl;
+    toast.success('Opening payment app...');
+  };
+
   const handlePaymentComplete = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
     const newOrder = {
       orderNumber: order.orderNumber,
       size: order.size,
@@ -46,6 +59,7 @@ export function OrderConfirmation() {
     }
 
     toast.success('Payment confirmed! Order placed.');
+    setIsLoading(false);
     setStage('complete');
   };
 
@@ -88,17 +102,16 @@ export function OrderConfirmation() {
             <p className="mb-4">Order #{order.orderNumber}</p>
 
             <Card className="p-6 mb-6">
-              <p className="mb-4 text-lg">Scan QR to Pay</p>
-              <img src="/qr.png" alt="Payment QR" className="w-64 mx-auto mb-4" />
               <p className="text-xl text-[#cc162b]">₹{order.price}</p>
-              <p className="text-sm text-gray-500 mt-2">Use any UPI app like GPay, PhonePe, or Paytm to complete payment.</p>
+              <p className="text-sm text-gray-500 mt-4">Token: <b>{order.orderNumber}</b></p>
+              <p className="text-sm text-gray-500 mt-2">Use this token number to collect your order</p>
             </Card>
 
             <Button
-              onClick={handlePaymentComplete}
-              className="w-full bg-[#cc162b] text-white py-4"
+              onClick={handleInitiatePayment}
+              className="w-full bg-green-600 text-white py-4"
             >
-              I Have Paid
+              Pay Now with UPI
             </Button>
           </div>
         )}
