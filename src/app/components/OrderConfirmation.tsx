@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useOrder } from '../context/OrderContext';
 import { Check } from 'lucide-react';
 import { Button } from './ui/button';
@@ -6,17 +6,31 @@ import { Card } from './ui/card';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
+type ConfirmationLocationState = {
+  skipReview?: boolean;
+  reward?: string | null;
+};
+
 export function OrderConfirmation() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const locationState = (location.state as ConfirmationLocationState | null) ?? null;
   const { order, generateOrderNumber, resetOrder } = useOrder();
-  const [stage, setStage] = useState<'review' | 'payment' | 'complete'>('review');
+  const [stage, setStage] = useState<'review' | 'payment' | 'complete'>(locationState?.skipReview ? 'payment' : 'review');
   const [isLoading, setIsLoading] = useState(false);
+  const wheelReward = locationState?.reward ?? null;
 
   useEffect(() => {
     if (!order.size || order.flavors.length === 0) {
       navigate('/');
     }
   }, [order.size, order.flavors, navigate]);
+
+  useEffect(() => {
+    if (stage === 'payment' && !order.orderNumber) {
+      generateOrderNumber();
+    }
+  }, [stage, order.orderNumber, generateOrderNumber]);
 
   const handlePaymentComplete = async () => {
     if (isLoading) return;
@@ -96,6 +110,11 @@ export function OrderConfirmation() {
               <p className="text-lg font-semibold mb-4">Scan QR to Pay</p>
               <img src="/qr.png" alt="Payment QR" className="w-64 mx-auto mb-4" />
               <p className="text-xl text-[#cc162b] mb-4">₹{order.price}</p>
+              {wheelReward && (
+                <p className="text-sm text-[#cc162b] mb-3" style={{ fontWeight: 700 }}>
+                  Wheel Reward: {wheelReward}
+                </p>
+              )}
               <p className="text-sm text-gray-600 mb-3">Option 1: Scan the QR code above using your phone</p>
               <p className="text-sm text-gray-600 mb-3">OR</p>
               <p className="text-sm text-gray-600 mb-4">Option 2: Scan the QR code at our payment stall</p>

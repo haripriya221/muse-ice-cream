@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { useOrder, Size } from '../context/OrderContext';
-import { IceCream, Sparkles } from 'lucide-react';
+import { ArrowLeft, IceCream, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 
@@ -23,8 +23,17 @@ export function SizeSelection() {
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50/30 flex flex-col">
       <div className="flex-1 container mx-auto px-4 py-16 relative">
         {/* Decorative elements */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-[#cc162b]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-32 h-32 bg-[#cc162b]/5 rounded-full blur-3xl"></div>
+        <div className="pointer-events-none absolute top-10 left-10 w-20 h-20 bg-[#cc162b]/5 rounded-full blur-3xl"></div>
+        <div className="pointer-events-none absolute bottom-20 right-20 w-32 h-32 bg-[#cc162b]/5 rounded-full blur-3xl"></div>
+
+        <Button
+          variant="ghost"
+          onClick={() => navigate('/')}
+          className="relative z-10 mb-6 hover:bg-red-50 transition-colors"
+        >
+          <ArrowLeft className="mr-2 w-4 h-4" />
+          Back
+        </Button>
         
         <div className="text-center mb-16 relative">
           <div className="flex justify-center mb-6">

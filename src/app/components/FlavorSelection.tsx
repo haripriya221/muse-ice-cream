@@ -26,7 +26,7 @@ export function FlavorSelection() {
 
   useEffect(() => {
     if (!order.size) {
-      navigate('/');
+      navigate('/sizes');
     }
   }, [order.size, navigate]);
 
@@ -68,7 +68,7 @@ export function FlavorSelection() {
         <div className="mb-8">
           <Button
             variant="ghost"
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/sizes')}
             className="mb-6 hover:bg-red-50 transition-colors"
           >
             <ArrowLeft className="mr-2 w-4 h-4" />

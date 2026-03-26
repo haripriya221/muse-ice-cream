@@ -12,6 +12,7 @@ export interface Order {
 interface OrderContextType {
   order: Order;
   setSize: (size: Size) => void;
+  setPresetOrder: (size: Size, flavors: string[]) => void;
   addFlavor: (flavor: string) => void;
   removeFlavor: (flavor: string) => void;
   clearFlavors: () => void;
@@ -40,6 +41,16 @@ export function OrderProvider({ children }: { children: ReactNode }) {
     setOrder({
       size,
       flavors: [],
+      price: SIZE_CONFIG[size].price,
+      orderNumber: null,
+    });
+  };
+
+  const setPresetOrder = (size: Size, flavors: string[]) => {
+    const maxFlavors = SIZE_CONFIG[size].maxFlavors;
+    setOrder({
+      size,
+      flavors: flavors.slice(0, maxFlavors),
       price: SIZE_CONFIG[size].price,
       orderNumber: null,
     });
@@ -103,6 +114,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
       value={{
         order,
         setSize,
+        setPresetOrder,
         addFlavor,
         removeFlavor,
         clearFlavors,
