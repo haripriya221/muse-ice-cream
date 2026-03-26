@@ -92,7 +92,13 @@ export function SpinWheel() {
 
   const handleProceedToPayment = () => {
     generateOrderNumber();
-    navigate('/confirm', { state: { skipReview: true, reward: selectedReward?.label ?? null } });
+    navigate('/confirm', {
+      state: {
+        skipReview: true,
+        reward: selectedReward?.label ?? null,
+        comboName: comboLabel,
+      },
+    });
   };
 
   return (

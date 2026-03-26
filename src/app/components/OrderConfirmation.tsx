@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 type ConfirmationLocationState = {
   skipReview?: boolean;
   reward?: string | null;
+  comboName?: string;
 };
 
 export function OrderConfirmation() {
@@ -19,6 +20,8 @@ export function OrderConfirmation() {
   const [stage, setStage] = useState<'review' | 'payment' | 'complete'>(locationState?.skipReview ? 'payment' : 'review');
   const [isLoading, setIsLoading] = useState(false);
   const wheelReward = locationState?.reward ?? null;
+  const comboName = locationState?.comboName?.trim() || null;
+  const orderType = comboName ? 'Combo' : 'Build';
 
   useEffect(() => {
     if (!order.size || order.flavors.length === 0) {
@@ -38,9 +41,12 @@ export function OrderConfirmation() {
 
     const newOrder = {
       orderNumber: order.orderNumber,
+      type: orderType,
+      comboName: comboName ?? '',
       size: order.size,
       flavors: order.flavors,
       price: order.price,
+      wheelReward: wheelReward ?? '',
       timestamp: new Date().toISOString(),
       status: 'paid',
     };
@@ -54,9 +60,11 @@ export function OrderConfirmation() {
         method: 'POST',
         body: JSON.stringify({
           orderId: order.orderNumber,
-          size: order.size,
-          flavours: order.flavors.join(', '),
+          type: orderType,
+          comboName: orderType === 'Combo' ? comboName : '',
+          flavours: orderType === 'Build' ? order.flavors.join(', ') : '',
           price: order.price,
+          wheelReward: wheelReward ?? '',
         }),
       });
     } catch (error) {
